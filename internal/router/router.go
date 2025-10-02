@@ -41,6 +41,7 @@ func SetupRoutes(app *fiber.App, cfg *config.Config) {
 	studentHandler := handlers.NewStudentHandler(cfg)
 	adminHandler := handlers.NewAdminHandler(cfg)
 	newsHandler := handlers.NewNewsHandler(cfg)
+	profileHandler := handlers.NewProfileHandler(cfg)
 
 	// Swagger documentation
 	app.Get("/swagger/*", fiberSwagger.WrapHandler)
@@ -73,7 +74,7 @@ func SetupRoutes(app *fiber.App, cfg *config.Config) {
 	setupProtectedRoutes(protected,
 		authHandler, scholarshipHandler, applicationHandler,
 		interviewHandler, allocationHandler, notificationHandler,
-		reportHandler, documentHandler, userHandler, studentHandler, adminHandler, newsHandler, cfg)
+		reportHandler, documentHandler, userHandler, studentHandler, adminHandler, newsHandler, profileHandler, cfg)
 
 	// Setup admin application routes
 	setupAdminApplicationRoutes(protected, applicationHandler)
@@ -187,7 +188,11 @@ func setupProtectedRoutes(protected fiber.Router,
 	studentHandler *handlers.StudentHandler,
 	adminHandler *handlers.AdminHandler,
 	newsHandler *handlers.NewsHandler,
+	profileHandler *handlers.ProfileHandler,
 	cfg *config.Config) {
+
+	// Universal profile routes (all roles)
+	setupProfileRoutes(protected, profileHandler)
 
 	// User profile routes
 	setupUserProfileRoutes(protected, authHandler)
@@ -529,4 +534,12 @@ func addCatchAllRoute(app *fiber.App) {
 			"method": c.Method(),
 		})
 	})
+}
+
+// setupProfileRoutes configures universal profile routes (all roles)
+func setupProfileRoutes(protected fiber.Router, profileHandler *handlers.ProfileHandler) {
+	// Universal profile routes - accessible by all authenticated users
+	protected.Get("/profile", profileHandler.GetProfile)
+	protected.Put("/profile", profileHandler.UpdateProfile)
+	protected.Put("/profile/password", profileHandler.ChangePassword)
 }

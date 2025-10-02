@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"time"
 
@@ -619,7 +620,18 @@ func (h *AdminHandler) GetDashboardResources(c *fiber.Ctx) error {
 // @Router /admin/profile [get]
 func (h *AdminHandler) GetAdminProfile(c *fiber.Ctx) error {
 	db := database.DB
-	userID := c.Locals("user_id").(string)
+	userID := c.Locals("user_id")
+	var userIDStr string
+
+	// Handle both string and uuid.UUID types
+	switch v := userID.(type) {
+	case string:
+		userIDStr = v
+	case uuid.UUID:
+		userIDStr = v.String()
+	default:
+		userIDStr = fmt.Sprintf("%v", v)
+	}
 
 	// Get user profile with roles
 	query := `
@@ -669,7 +681,7 @@ func (h *AdminHandler) GetAdminProfile(c *fiber.Ctx) error {
 	}
 
 	var rolesJSON string
-	err := db.QueryRow(query, userID).Scan(
+	err := db.QueryRow(query, userIDStr).Scan(
 		&profile.UserID,
 		&profile.Username,
 		&profile.Email,
@@ -715,7 +727,16 @@ func (h *AdminHandler) GetAdminProfile(c *fiber.Ctx) error {
 // @Router /admin/profile [put]
 func (h *AdminHandler) UpdateAdminProfile(c *fiber.Ctx) error {
 	db := database.DB
-	userID := c.Locals("user_id").(string)
+	userID := c.Locals("user_id")
+	var userIDStr string
+	switch v := userID.(type) {
+	case string:
+		userIDStr = v
+	case uuid.UUID:
+		userIDStr = v.String()
+	default:
+		userIDStr = fmt.Sprintf("%v", v)
+	}
 
 	var updateData struct {
 		FirstName string  `json:"first_name"`
@@ -767,7 +788,7 @@ func (h *AdminHandler) UpdateAdminProfile(c *fiber.Ctx) error {
 		updateData.LastName,
 		updateData.Phone,
 		updateData.Email,
-		userID,
+		userIDStr,
 	).Scan(
 		&updatedProfile.UserID,
 		&updatedProfile.Username,
@@ -808,7 +829,16 @@ func (h *AdminHandler) UpdateAdminProfile(c *fiber.Ctx) error {
 // @Router /admin/profile/password [put]
 func (h *AdminHandler) ChangeAdminPassword(c *fiber.Ctx) error {
 	db := database.DB
-	userID := c.Locals("user_id").(string)
+	userID := c.Locals("user_id")
+	var userIDStr string
+	switch v := userID.(type) {
+	case string:
+		userIDStr = v
+	case uuid.UUID:
+		userIDStr = v.String()
+	default:
+		userIDStr = fmt.Sprintf("%v", v)
+	}
 
 	var passwordData struct {
 		CurrentPassword string `json:"current_password"`
@@ -840,7 +870,7 @@ func (h *AdminHandler) ChangeAdminPassword(c *fiber.Ctx) error {
 
 	// Get current password hash
 	var currentPasswordHash string
-	err := db.QueryRow("SELECT password_hash FROM users WHERE user_id = $1", userID).Scan(&currentPasswordHash)
+	err := db.QueryRow("SELECT password_hash FROM users WHERE user_id = $1", userIDStr).Scan(&currentPasswordHash)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"success": false,
@@ -866,7 +896,7 @@ func (h *AdminHandler) ChangeAdminPassword(c *fiber.Ctx) error {
 	}
 
 	// Update password
-	_, err = db.Exec("UPDATE users SET password_hash = $1, updated_at = NOW() WHERE user_id = $2", string(hashedPassword), userID)
+	_, err = db.Exec("UPDATE users SET password_hash = $1, updated_at = NOW() WHERE user_id = $2", string(hashedPassword), userIDStr)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"success": false,
