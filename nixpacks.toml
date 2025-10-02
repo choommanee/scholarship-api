@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ["go_1_21"]
+
+[phases.build]
+cmds = [
+  "go mod download",
+  "go build -o scholarship-system main.go"
+]
+
+[start]
+cmd = "./scholarship-system"

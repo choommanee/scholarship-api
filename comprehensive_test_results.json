@@ -1,0 +1,154 @@
+{
+  "test_date": "2025-10-02 08:55:23",
+  "base_url": "http://localhost:8080/api/v1",
+  "results": [
+    {
+      "category": "System",
+      "test_name": "Health Check",
+      "method": "GET",
+      "endpoint": "/health",
+      "expected_status": 200,
+      "actual_status": 404,
+      "result": "FAIL",
+      "response": "{"error":"Endpoint not found","method":"GET","path":"/api/health"}"
+    }
+,
+    {
+      "category": "Authentication",
+      "test_name": "Student Login",
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "expected_status": 200,
+      "actual_status": 200,
+      "result": "PASS",
+      "response": {"expires_at":"2025-10-09T08:55:23.441233+07:00","success":true,"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZGZhNGVlMDUtOWI3Yi00MTQzLTkxNTUtNThiYTFjODQ5NGQyIiwiZW1haWwiOiJ0ZXN0QGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiIiLCJyb2xlcyI6WyJzdHVkZW50Il0sInN1YiI6ImRmYTRlZTA1LTliN2ItNDE0My05MTU1LTU4YmExYzg0OTRkMiIsImV4cCI6MTc1OTk3NDkyMywiaWF0IjoxNzU5MzcwMTIzfQ.YstK6MNObMYWbETzMxLbiivO2K_augWg7SfRGoTLVdw","user":{"created_at":"2025-10-01T22:45:32.763098Z","email":"test@example.com","first_name":"Test","id":"dfa4ee05-9b7b-4143-9155-58ba1c8494d2","is_active":true,"last_login":"2025-10-01T23:38:22.228213Z","last_name":"User","phone":"","role":"student","roles":["student"],"updated_at":"2025-10-01T22:45:32.763098Z","user_id":"dfa4ee05-9b7b-4143-9155-58ba1c8494d2","user_roles":[{"user_id":"dfa4ee05-9b7b-4143-9155-58ba1c8494d2","role_id":4,"assigned_at":"2025-10-01T22:45:32.771669Z","assigned_by":null,"is_active":true,"role":{"role_id":4,"role_name":"student","role_description":"Student","permissions":"[\"apply_scholarship\", \"view_own_applications\", \"upload_documents\", \"schedule_interview\"]","created_at":"2025-06-11T11:38:24.147221Z"}}],"username":""}}
+    }
+,
+    {
+      "category": "Authentication",
+      "test_name": "Admin Login",
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "expected_status": 200,
+      "actual_status": 200,
+      "result": "PASS",
+      "response": {"expires_at":"2025-10-09T08:55:23.539109+07:00","success":true,"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiODE4NjkxNjItZWYzMC00M2NjLTgyMmItNzkzYTljNTRlY2ZiIiwiZW1haWwiOiJhZG1pbkB1bml2ZXJzaXR5LmFjLnRoIiwidXNlcm5hbWUiOiJhZG1pbjEiLCJyb2xlcyI6WyJhZG1pbiJdLCJzdWIiOiI4MTg2OTE2Mi1lZjMwLTQzY2MtODIyYi03OTNhOWM1NGVjZmIiLCJleHAiOjE3NTk5NzQ5MjMsImlhdCI6MTc1OTM3MDEyM30.c_P-qDLwFFLi-0qGOz2hWw5-TA6fkpM2mrfGMeHkoh4","user":{"created_at":"2025-06-11T14:25:14.041787Z","email":"admin@university.ac.th","first_name":"Admin","id":"81869162-ef30-43cc-822b-793a9c54ecfb","is_active":true,"last_login":"2025-10-02T00:09:14.943034Z","last_name":"User","phone":"0811111111","role":"admin","roles":["admin"],"updated_at":"2025-06-11T14:25:14.041787Z","user_id":"81869162-ef30-43cc-822b-793a9c54ecfb","user_roles":[{"user_id":"81869162-ef30-43cc-822b-793a9c54ecfb","role_id":1,"assigned_at":"2025-06-11T14:25:25.179405Z","assigned_by":null,"is_active":true,"role":{"role_id":1,"role_name":"admin","role_description":"System Administrator","permissions":"[\"manage_users\", \"manage_scholarships\", \"manage_budget\", \"view_all_reports\", \"system_config\"]","created_at":"2025-06-11T11:38:24.147221Z"}}],"username":"admin1"}}
+    }
+,
+    {
+      "category": "User",
+      "test_name": "Get User Profile",
+      "method": "GET",
+      "endpoint": "/user/profile",
+      "expected_status": 200,
+      "actual_status": 200,
+      "result": "PASS",
+      "response": {"user_id":"dfa4ee05-9b7b-4143-9155-58ba1c8494d2","username":"","email":"test@example.com","first_name":"Test","last_name":"User","phone":"","is_active":true,"sso_provider":null,"sso_user_id":null,"created_at":"2025-10-01T22:45:32.763098Z","updated_at":"2025-10-01T22:45:32.763098Z","last_login":"2025-10-02T08:55:23.441337Z","user_roles":[{"user_id":"dfa4ee05-9b7b-4143-9155-58ba1c8494d2","role_id":4,"assigned_at":"2025-10-01T22:45:32.771669Z","assigned_by":null,"is_active":true,"role":{"role_id":4,"role_name":"student","role_description":"Student","permissions":"[\"apply_scholarship\", \"view_own_applications\", \"upload_documents\", \"schedule_interview\"]","created_at":"2025-06-11T11:38:24.147221Z"}}]}
+    }
+,
+    {
+      "category": "Scholarship",
+      "test_name": "Get All Scholarships",
+      "method": "GET",
+      "endpoint": "/scholarships",
+      "expected_status": 200,
+      "actual_status": 200,
+      "result": "PASS",
+      "response": {"limit":10,"offset":0,"scholarships":[{"scholarship_id":10,"source_id":1,"scholarship_name":"ทดสอบ (คัดลอก)","scholarship_type":"need","amount":30000,"total_quota":20,"available_quota":20,"academic_year":"2568","semester":"1","eligibility_criteria":"ทดสอบ","required_documents":"ทดสอบ","application_start_date":"2023-04-30T00:00:00Z","application_end_date":"2023-06-30T00:00:00Z","interview_required":true,"is_active":true,"created_by":"d0994ab4-b434-448a-be3c-a8ce33d4dc47","created_at":"2025-06-30T13:26:48.737294Z","updated_at":"2025-06-30T13:59:06.620781Z","source":{"source_id":1,"source_name":"University Foundation","source_type":"internal","contact_person":"John Doe","contact_email":"foundation@university.ac.th","contact_phone":null,"description":null,"is_active":true,"created_at":"2025-06-11T14:25:58.376148Z","updated_at":"2025-06-11T14:25:58.376148Z"}},{"scholarship_id":5,"source_id":6,"scholarship_name":"ทุนทดสอบ 2567","scholarship_type":"merit","amount":25000,"total_quota":10,"available_quota":10,"academic_year":"2567","semester":"ภาคการศึกษาที่ 1","eligibility_criteria":"เกรดเฉลี่ย >= 3.00","required_documents":"ใบสมัคร, Transcript","application_start_date":"2024-02-01T00:00:00Z","application_end_date":"2024-04-30T00:00:00Z","interview_required":true,"is_active":true,"created_by":"d0994ab4-b434-448a-be3c-a8ce33d4dc47","created_at":"2025-06-30T10:23:08.749092Z","updated_at":"2025-06-30T10:23:08.749092Z","source":{"source_id":6,"source_name":"คณะเศรษฐศาสตร์","source_type":"faculty_direct","contact_person":"ดร.สมชาย","contact_email":"econ@tu.ac.th","contact_phone":"02-613-2000","description":"ทุนจากคณะเศรษฐศาสตร์","is_active":true,"created_at":"2025-06-30T09:35:24.288629Z","updated_at":"2025-06-30T09:35:24.288629Z"}},{"scholarship_id":3,"source_id":1,"scholarship_name":"Merit Scholarship 2023","scholarship_type":"merit","amount":50000,"total_quota":10,"available_quota":10,"academic_year":"2023","semester":"1","eligibility_criteria":null,"required_documents":null,"application_start_date":"2023-05-01T00:00:00Z","application_end_date":"2023-06-30T00:00:00Z","interview_required":true,"is_active":true,"created_by":"00000000-0000-0000-0000-000000000000","created_at":"2025-06-12T23:34:34.629298Z","updated_at":"2025-06-12T23:34:34.629298Z","source":{"source_id":1,"source_name":"University Foundation","source_type":"internal","contact_person":"John Doe","contact_email":"foundation@university.ac.th","contact_phone":null,"description":null,"is_active":true,"created_at":"2025-06-11T14:25:58.376148Z","updated_at":"2025-06-11T14:25:58.376148Z"}},{"scholarship_id":4,"source_id":2,"scholarship_name":"Need-based Grant 2023","scholarship_type":"need-based","amount":30000,"total_quota":20,"available_quota":20,"academic_year":"2023","semester":"1","eligibility_criteria":null,"required_documents":null,"application_start_date":"2023-05-01T00:00:00Z","application_end_date":"2023-06-30T00:00:00Z","interview_required":true,"is_active":true,"created_by":"00000000-0000-0000-0000-000000000000","created_at":"2025-06-12T23:34:34.629298Z","updated_at":"2025-06-12T23:34:34.629298Z","source":{"source_id":2,"source_name":"Corporate Scholarship Program","source_type":"external","contact_person":"Jane Smith","contact_email":"corporate@example.com","contact_phone":null,"description":null,"is_active":true,"created_at":"2025-06-11T14:25:58.376148Z","updated_at":"2025-06-11T14:25:58.376148Z"}},{"scholarship_id":1,"source_id":1,"scholarship_name":"Merit Scholarship 2023","scholarship_type":"merit","amount":50000,"total_quota":10,"available_quota":10,"academic_year":"2023","semester":"1","eligibility_criteria":null,"required_documents":null,"application_start_date":"2023-05-01T00:00:00Z","application_end_date":"2023-06-30T00:00:00Z","interview_required":true,"is_active":true,"created_by":"00000000-0000-0000-0000-000000000000","created_at":"2025-06-11T14:26:02.491322Z","updated_at":"2025-06-11T14:26:02.491322Z","source":{"source_id":1,"source_name":"University Foundation","source_type":"internal","contact_person":"John Doe","contact_email":"foundation@university.ac.th","contact_phone":null,"description":null,"is_active":true,"created_at":"2025-06-11T14:25:58.376148Z","updated_at":"2025-06-11T14:25:58.376148Z"}},{"scholarship_id":2,"source_id":2,"scholarship_name":"Need-based Grant 2023","scholarship_type":"need-based","amount":30000,"total_quota":20,"available_quota":20,"academic_year":"2023","semester":"1","eligibility_criteria":null,"required_documents":null,"application_start_date":"2023-05-01T00:00:00Z","application_end_date":"2023-06-30T00:00:00Z","interview_required":true,"is_active":true,"created_by":"00000000-0000-0000-0000-000000000000","created_at":"2025-06-11T14:26:02.491322Z","updated_at":"2025-06-11T14:26:02.491322Z","source":{"source_id":2,"source_name":"Corporate Scholarship Program","source_type":"external","contact_person":"Jane Smith","contact_email":"corporate@example.com","contact_phone":null,"description":null,"is_active":true,"created_at":"2025-06-11T14:25:58.376148Z","updated_at":"2025-06-11T14:25:58.376148Z"}}],"total":6}
+    }
+,
+    {
+      "category": "Scholarship",
+      "test_name": "Get Available Scholarships",
+      "method": "GET",
+      "endpoint": "/scholarships/available",
+      "expected_status": 200,
+      "actual_status": 200,
+      "result": "PASS",
+      "response": {"count":0,"scholarships":null}
+    }
+,
+    {
+      "category": "Scholarship",
+      "test_name": "Get Scholarship by ID",
+      "method": "GET",
+      "endpoint": "/scholarships/{id}",
+      "expected_status": 200,
+      "actual_status": 200,
+      "result": "PASS",
+      "response": {"scholarship_id":10,"source_id":1,"scholarship_name":"ทดสอบ (คัดลอก)","scholarship_type":"need","amount":30000,"total_quota":20,"available_quota":20,"academic_year":"2568","semester":"1","eligibility_criteria":"ทดสอบ","required_documents":"ทดสอบ","application_start_date":"2023-04-30T00:00:00Z","application_end_date":"2023-06-30T00:00:00Z","interview_required":true,"is_active":true,"created_by":"d0994ab4-b434-448a-be3c-a8ce33d4dc47","created_at":"2025-06-30T13:26:48.737294Z","updated_at":"2025-06-30T13:59:06.620781Z","source":{"source_id":1,"source_name":"University Foundation","source_type":"internal","contact_person":"John Doe","contact_email":"foundation@university.ac.th","contact_phone":null,"description":null,"is_active":true,"created_at":"2025-06-11T14:25:58.376148Z","updated_at":"2025-06-11T14:25:58.376148Z"}}
+    }
+,
+    {
+      "category": "News",
+      "test_name": "Get All News",
+      "method": "GET",
+      "endpoint": "/news",
+      "expected_status": 200,
+      "actual_status": 200,
+      "result": "PASS",
+      "response": {"news":[{"id":"62e88b56-8ddc-4fa0-95c7-6ee19e20dafb","title":"ทุนการศึกษาสำหรับนักศึกษาด้านบริหารธุรกิจและการบัญชี","content":"สภาวิชาชีพบัญชี ร่วมกับสมาคมนักบัญชีและผู้สอบบัญชีรับอนุญาตแห่งประเทศไทย เปิดรับสมัครทุนการศึกษาสำหรับนักศึกษาระดับปริญญาตรีสาขาบริหารธุรกิจและการบัญชี ทุนละ 40,000 บาทต่อปี พร้อมโอกาสฝึกงานกับบริษัทชั้นนำด้านการบัญชีและการเงิน","summary":"ทุนการศึกษาจากสภาวิชาชีพบัญชี สำหรับนักศึกษาบริหารธุรกิจและการบัญชี ทุนละ 40,000 บาทต่อปี","image_url":null,"publish_date":"2025-06-13T00:00:00Z","expire_date":"2025-06-30T00:00:00Z","category":"scholarship","tags":["ทุนการศึกษา","บริหารธุรกิจ","การบัญชี"],"is_published":true,"created_by":"d0994ab4-b434-448a-be3c-a8ce33d4dc47","created_at":"2025-06-14T00:27:43.840979Z","updated_at":"2025-06-14T09:32:02.387994Z"},{"id":"dc19cac7-7d32-43b2-84b3-87421db32ed8","title":"ทุนการศึกษาสำหรับนักศึกษาด้านรัฐศาสตร์และรัฐประศาสนศาสตร์","content":"สถาบันพระปกเกล้า เปิดรับสมัครทุนการศึกษาสำหรับนักศึกษาระดับปริญญาตรีสาขารัฐศาสตร์ รัฐประศาสนศาสตร์ และสาขาที่เกี่ยวข้อง ทุนละ 42,000 บาทต่อปี พร้อมโอกาสเข้าร่วมโครงการศึกษาดูงานด้านการเมืองการปกครอง ผู้สนใจสามารถสมัครได้ตั้งแต่วันนี้ถึง 15 ตุลาคม 2566","summary":"ทุนการศึกษาจากสถาบันพระปกเกล้า สำหรับนักศึกษารัฐศาสตร์และรัฐประศาสนศาสตร์ ทุนละ 42,000 บาทต่อปี","image_url":null,"publish_date":"2025-06-12T00:00:00Z","expire_date":"2025-06-20T00:00:00Z","category":"scholarship","tags":["ทุนการศึกษา","รัฐศาสตร์","รัฐประศาสนศาสตร์"],"is_published":true,"created_by":"d0994ab4-b434-448a-be3c-a8ce33d4dc47","created_at":"2025-06-14T00:27:15.567036Z","updated_at":"2025-06-14T09:32:19.40414Z"},{"id":"de0534b3-2267-4f22-b761-d93ced3e9b58","title":"ทุนการศึกษาสำหรับนักศึกษาด้านนิติศาสตร์","content":"สำนักงานศาลยุติธรรม ร่วมกับเนติบัณฑิตยสภา เปิดรับสมัครทุนการศึกษาสำหรับนักศึกษาระดับปริญญาตรีคณะนิติศาสตร์ ทุนละ 45,000 บาทต่อปี พร้อมโอกาสฝึกงานในหน่วยงานในสังกัดศาลยุติธรรม ผู้สนใจสามารถสมัครได้ตั้งแต่วันนี้ถึง 30 กันยายน 2566","summary":"ทุนการศึกษาจากสำนักงานศาลยุติธรรมและเนติบัณฑิตยสภา สำหรับนักศึกษานิติศาสตร์ ทุนละ 45,000 บาทต่อปี","image_url":null,"publish_date":"2025-06-11T00:00:00Z","expire_date":null,"category":"scholarship","tags":["ทุนการศึกษา","นิติศาสตร์","กฎหมาย"],"is_published":true,"created_by":"d0994ab4-b434-448a-be3c-a8ce33d4dc47","created_at":"2025-06-14T00:26:52.90324Z","updated_at":"2025-06-14T00:26:52.90324Z"},{"id":"3cc11225-c922-4bf8-824f-7da478e7958f","title":"ทุนการศึกษาสำหรับนักศึกษาด้านศิลปะและการออกแบบ","content":"ศูนย์ส่งเสริมศิลปาชีพระหว่างประเทศ (องค์การมหาชน) เปิดรับสมัครทุนการศึกษาสำหรับนักศึกษาระดับปริญญาตรีด้านศิลปะ การออกแบบ และสาขาที่เกี่ยวข้อง ทุนละ 38,000 บาทต่อปี พร้อมโอกาสเข้าร่วมโครงการแลกเปลี่ยนศิลปวัฒนธรรมในต่างประเทศ ผู้สนใจสามารถสมัครได้ตั้งแต่วันนี้ถึง 15 กันยายน 2566","summary":"ทุนการศึกษาจากศูนย์ส่งเสริมศิลปาชีพระหว่างประเทศ สำหรับนักศึกษาด้านศิลปะและการออกแบบ","image_url":null,"publish_date":"2025-06-10T00:00:00Z","expire_date":null,"category":"scholarship","tags":["ทุนการศึกษา","ศิลปะ","การออกแบบ"],"is_published":true,"created_by":"d0994ab4-b434-448a-be3c-a8ce33d4dc47","created_at":"2025-06-14T00:26:28.23868Z","updated_at":"2025-06-14T00:26:28.23868Z"},{"id":"0bce741f-65c1-40a1-92a0-203ce5877b9d","title":"ทุนการศึกษาสำหรับนักศึกษาด้านการท่องเที่ยวและการโรงแรม","content":"สมาคมโรงแรมไทย ร่วมกับการท่องเที่ยวแห่งประเทศไทย เปิดรับสมัครทุนการศึกษาสำหรับนักศึกษาระดับปริญญาตรีด้านการท่องเที่ยวและการโรงแรม ทุนละ 35,000 บาทต่อปี พร้อมโอกาสฝึกงานกับโรงแรมชั้นนำทั่วประเทศ ผู้สนใจสามารถสมัครได้ตั้งแต่วันนี้ถึง 30 สิงหาคม 2566","summary":"ทุนการศึกษาจากสมาคมโรงแรมไทยและการท่องเที่ยวแห่งประเทศไทย สำหรับนักศึกษาด้านการท่องเที่ยวและการโรงแรม","image_url":null,"publish_date":"2025-06-09T00:00:00Z","expire_date":null,"category":"scholarship","tags":["ทุนการศึกษา","การท่องเที่ยว","การโรงแรม"],"is_published":true,"created_by":"d0994ab4-b434-448a-be3c-a8ce33d4dc47","created_at":"2025-06-14T00:25:52.929262Z","updated_at":"2025-06-14T00:25:52.929262Z"},{"id":"64739f79-5cff-4c5f-a19c-5c00004535db","title":"ทุนการศึกษาเพื่อนักศึกษาด้านการเกษตรและเทคโนโลยีชีวภาพ","content":"สำนักงานพัฒนาการวิจัยการเกษตร (องค์การมหาชน) หรือ สวก. เปิดรับสมัครทุนการศึกษาสำหรับนักศึกษาระดับปริญญาตรีด้านการเกษตร เทคโนโลยีชีวภาพ และสาขาที่เกี่ยวข้อง ทุนละ 40,000 บาทต่อปี พร้อมโอกาสเข้าร่วมโครงการวิจัยด้านการเกษตรและเทคโนโลยีชีวภาพ","summary":"ทุนการศึกษาจาก สวก. สำหรับนักศึกษาด้านการเกษตรและเทคโนโลยีชีวภาพ ทุนละ 40,000 บาทต่อปี","image_url":null,"publish_date":"2025-06-08T00:00:00Z","expire_date":null,"category":"scholarship","tags":["ทุนการศึกษา","การเกษตร","เทคโนโลยีชีวภาพ"],"is_published":true,"created_by":"d0994ab4-b434-448a-be3c-a8ce33d4dc47","created_at":"2025-06-14T00:25:15.394279Z","updated_at":"2025-06-14T00:25:15.394279Z"},{"id":"f600ddf3-743c-4665-84ae-30f6d731b787","title":"ทุนการศึกษาสำหรับนักศึกษาด้านเทคโนโลยีสารสนเทศและการสื่อสาร","content":"สำนักงานส่งเสริมเศรษฐกิจดิจิทัล (DEPA) เปิดรับสมัครทุนการศึกษาสำหรับนักศึกษาระดับปริญญาตรีด้านเทคโนโลยีสารสนเทศ วิทยาการคอมพิวเตอร์ และสาขาที่เกี่ยวข้อง ทุนละ 55,000 บาทต่อปี พร้อมโอกาสฝึกงานกับบริษัทชั้นนำด้านเทคโนโลยี ผู้สนใจสามารถสมัครได้ตั้งแต่วันนี้ถึง 15 สิงหาคม 2566","summary":"ทุนการศึกษาจาก DEPA สำหรับนักศึกษาด้านไอที ทุนละ 55,000 บาทต่อปี พร้อมโอกาสฝึกงาน","image_url":null,"publish_date":"2025-06-07T00:00:00Z","expire_date":null,"category":"scholarship","tags":["ทุนการศึกษา","เทคโนโลยีสารสนเทศ","ดิจิทัล"],"is_published":true,"created_by":"d0994ab4-b434-448a-be3c-a8ce33d4dc47","created_at":"2025-06-14T00:23:05.200778Z","updated_at":"2025-06-14T00:23:05.200778Z"},{"id":"4ad84abb-7804-48cc-941c-a29883b26c65","title":"ทุนการศึกษาสำหรับนักศึกษาคณะเภสัชศาสตร์ มหาวิทยาลัยมหิดล","content":"คณะเภสัชศาสตร์ มหาวิทยาลัยมหิดล เปิดรับสมัครทุนการศึกษาสำหรับนักศึกษาเภสัชศาสตร์ที่มีผลการเรียนดีแต่ขาดแคลนทุนทรัพย์ ทุนละ 50,000 บาทต่อปี ผู้สนใจสามารถยื่นใบสมัครได้ที่งานกิจการนักศึกษา ตั้งแต่วันนี้ถึง 20 กรกฎาคม 2566","summary":"ทุนการศึกษาสำหรับนักศึกษาเภสัชศาสตร์ มหาวิทยาลัยมหิดล ทุนละ 50,000 บาทต่อปี","image_url":null,"publish_date":"2025-06-06T00:00:00Z","expire_date":null,"category":"scholarship","tags":["ทุนการศึกษา","เภสัชศาสตร์","มหิดล"],"is_published":true,"created_by":"d0994ab4-b434-448a-be3c-a8ce33d4dc47","created_at":"2025-06-14T00:22:38.860806Z","updated_at":"2025-06-14T00:22:38.860806Z"},{"id":"e0bdcd04-c0f5-4186-9dfa-6bc4298d79f2","title":"ทุนการศึกษาเพื่อนักศึกษาด้านวิศวกรรมศาสตร์และเทคโนโลยี","content":"สมาคมวิศวกรรมสถานแห่งประเทศไทย ในพระบรมราชูปถัมภ์ (วสท.) เปิดรับสมัครทุนการศึกษาสำหรับนักศึกษาระดับปริญญาตรีสาขาวิศวกรรมศาสตร์ ทุนละ 45,000 บาทต่อปี สำหรับนักศึกษาที่มีผลการเรียนดีและมีความสนใจด้านนวัตกรรมเทคโนโลยี ผู้สนใจสามารถสมัครได้ตั้งแต่วันนี้ถึง 30 กรกฎาคม 2566","summary":"ทุนการศึกษาจากสมาคมวิศวกรรมสถานแห่งประเทศไทย สำหรับนักศึกษาวิศวกรรมศาสตร์ ทุนละ 45,000 บาท","image_url":null,"publish_date":"2025-06-05T00:00:00Z","expire_date":null,"category":"scholarship","tags":["ทุนการศึกษา","วิศวกรรมศาสตร์","นวัตกรรม"],"is_published":true,"created_by":"d0994ab4-b434-448a-be3c-a8ce33d4dc47","created_at":"2025-06-14T00:21:49.584276Z","updated_at":"2025-06-14T00:21:49.584276Z"},{"id":"3cd4f6b3-d820-4c0d-8d63-9394c526ad64","title":"ทุนการศึกษาสำหรับนักศึกษาคณะแพทยศาสตร์ มหาวิทยาลัยมหิดล","content":"คณะแพทยศาสตร์ศิริราชพยาบาล มหาวิทยาลัยมหิดล เปิดรับสมัครทุนการศึกษาสำหรับนักศึกษาแพทย์ที่มีผลการเรียนดีแต่ขาดแคลนทุนทรัพย์ ทุนละ 60,000 บาทต่อปี โดยไม่มีข้อผูกมัดหลังสำเร็จการศึกษา ผู้สนใจสามารถยื่นใบสมัครได้ที่งานกิจการนักศึกษา ตั้งแต่วันนี้ถึง 15 กรกฎาคม 2566","summary":"ทุนการศึกษาสำหรับนักศึกษาแพทย์ศิริราช ทุนละ 60,000 บาทต่อปี ไม่มีข้อผูกมัด","image_url":null,"publish_date":"2025-06-04T00:00:00Z","expire_date":null,"category":"scholarship","tags":["ทุนการศึกษา","แพทยศาสตร์","ศิริราช"],"is_published":true,"created_by":"d0994ab4-b434-448a-be3c-a8ce33d4dc47","created_at":"2025-06-14T00:21:20.104887Z","updated_at":"2025-06-14T00:21:20.104887Z"}],"pagination":{"limit":10,"page":1,"total":14,"totalPages":2}}
+    }
+,
+    {
+      "category": "Payment",
+      "test_name": "Get Payment Methods",
+      "method": "GET",
+      "endpoint": "/payments/methods",
+      "expected_status": 200,
+      "actual_status": 200,
+      "result": "PASS",
+      "response": [{"method_id":"36ab6b10-0876-45a5-bcd4-035422ffbe86","method_name":"Bank Transfer","method_code":"bank_transfer","description":"โอนเงินผ่านธนาคาร","is_active":true,"configuration":{},"created_at":"2025-10-01T17:54:54.477123Z"},{"method_id":"a378025b-453b-40ec-9c30-18cf645056ad","method_name":"Cheque","method_code":"cheque","description":"เช็คธนาคาร","is_active":true,"configuration":{},"created_at":"2025-10-01T17:54:54.477123Z"},{"method_id":"cd254db8-37ec-49e2-93dd-944c3198ff2d","method_name":"Mobile Banking","method_code":"mobile_banking","description":"Mobile Banking","is_active":true,"configuration":{},"created_at":"2025-10-01T17:54:54.477123Z"}]
+    }
+,
+    {
+      "category": "Analytics",
+      "test_name": "Dashboard Summary",
+      "method": "GET",
+      "endpoint": "/analytics/dashboard",
+      "expected_status": 200,
+      "actual_status": 200,
+      "result": "PASS",
+      "response": {"average_processing_time":0,"bottlenecks":{},"latest_statistics":null,"total_periods":0}
+    }
+,
+    {
+      "category": "Analytics",
+      "test_name": "Processing Time",
+      "method": "GET",
+      "endpoint": "/analytics/processing-time",
+      "expected_status": 200,
+      "actual_status": 200,
+      "result": "PASS",
+      "response": {"average_processing_time_days":0}
+    }
+,
+    {
+      "category": "Analytics",
+      "test_name": "Bottlenecks Analysis",
+      "method": "GET",
+      "endpoint": "/analytics/bottlenecks",
+      "expected_status": 200,
+      "actual_status": 200,
+      "result": "PASS",
+      "response": {"bottlenecks":{}}
+    }
+,
+    {
+      "category": "Analytics",
+      "test_name": "All Statistics",
+      "method": "GET",
+      "endpoint": "/analytics/statistics/all",
+      "expected_status": 200,
+      "actual_status": 200,
+      "result": "PASS",
+      "response": null
+    }
+  ],
+  "summary": {
+    "total": 13,
+    "passed": 12,
+    "failed": 1,
+    "success_rate": "%"     "success_rate": "%"
+  }
+}

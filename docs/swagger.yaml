@@ -1,0 +1,2939 @@
+basePath: /api/v1
+definitions:
+  handlers.CreateApplicationRequest:
+    properties:
+      activities_participation:
+        type: string
+      application_data:
+        type: string
+      family_income:
+        type: number
+      monthly_expenses:
+        type: number
+      scholarship_id:
+        type: integer
+      siblings_count:
+        type: integer
+      special_abilities:
+        type: string
+    required:
+    - scholarship_id
+    type: object
+  handlers.CreateSourceRequest:
+    properties:
+      contact_email:
+        type: string
+      contact_person:
+        type: string
+      contact_phone:
+        type: string
+      description:
+        type: string
+      source_name:
+        type: string
+      source_type:
+        type: string
+    required:
+    - source_name
+    - source_type
+    type: object
+  handlers.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  handlers.LoginResponse:
+    properties:
+      expires_at:
+        type: string
+      token:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+    type: object
+  handlers.RegisterRequest:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      password:
+        minLength: 6
+        type: string
+      phone:
+        type: string
+      student_id:
+        type: string
+      username:
+        maxLength: 50
+        minLength: 3
+        type: string
+    required:
+    - email
+    - first_name
+    - last_name
+    - password
+    - username
+    type: object
+  handlers.StudentProfileRequest:
+    properties:
+      admission_year:
+        type: integer
+      department_code:
+        type: string
+      faculty_code:
+        type: string
+      gpa:
+        maximum: 4
+        minimum: 0
+        type: number
+      graduation_year:
+        type: integer
+      student_id:
+        type: string
+      year_level:
+        maximum: 8
+        minimum: 1
+        type: integer
+    required:
+    - admission_year
+    - department_code
+    - faculty_code
+    - gpa
+    - student_id
+    - year_level
+    type: object
+  models.InterviewResult:
+    properties:
+      appointment_id:
+        type: integer
+      comments:
+        type: string
+      created_at:
+        type: string
+      interview_notes:
+        type: string
+      interviewer_id:
+        type: string
+      overall_score:
+        type: number
+      recommendation:
+        type: string
+      result_id:
+        type: integer
+      scores:
+        type: string
+    type: object
+  models.InterviewSchedule:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      end_time:
+        type: string
+      interview_date:
+        type: string
+      interviewer_ids:
+        type: string
+      is_active:
+        type: boolean
+      location:
+        type: string
+      max_applicants:
+        type: integer
+      notes:
+        type: string
+      schedule_id:
+        type: integer
+      scholarship_id:
+        type: integer
+      start_time:
+        type: string
+    type: object
+  models.Notification:
+    properties:
+      created_at:
+        type: string
+      email_sent_at:
+        type: string
+      is_email_sent:
+        type: boolean
+      is_read:
+        type: boolean
+      message:
+        type: string
+      notification_id:
+        type: integer
+      notification_type:
+        type: string
+      priority:
+        type: string
+      read_at:
+        type: string
+      reference_id:
+        type: string
+      reference_type:
+        type: string
+      title:
+        type: string
+      user_id:
+        type: string
+    type: object
+  models.Role:
+    properties:
+      created_at:
+        type: string
+      permissions:
+        type: string
+      role_description:
+        type: string
+      role_id:
+        type: integer
+      role_name:
+        type: string
+    type: object
+  models.ScholarshipAllocation:
+    properties:
+      allocated_amount:
+        type: number
+      allocated_by:
+        type: string
+      allocation_date:
+        type: string
+      allocation_id:
+        type: integer
+      allocation_status:
+        type: string
+      application_id:
+        type: integer
+      approved_by:
+        type: string
+      bank_account:
+        type: string
+      bank_name:
+        type: string
+      created_at:
+        type: string
+      disbursement_method:
+        type: string
+      notes:
+        type: string
+      scholarship_id:
+        type: integer
+      transfer_date:
+        type: string
+      transfer_reference:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.Student:
+    properties:
+      admission_year:
+        type: integer
+      department_code:
+        type: string
+      faculty_code:
+        type: string
+      gpa:
+        type: number
+      graduation_year:
+        type: integer
+      student_id:
+        type: string
+      student_status:
+        type: string
+      user_id:
+        type: string
+      year_level:
+        type: integer
+    type: object
+  models.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      is_active:
+        type: boolean
+      last_login:
+        type: string
+      last_name:
+        type: string
+      phone:
+        type: string
+      roles:
+        items:
+          additionalProperties: true
+          type: object
+        type: array
+      sso_provider:
+        type: string
+      sso_user_id:
+        type: string
+      student:
+        $ref: '#/definitions/models.Student'
+      updated_at:
+        type: string
+      user_id:
+        type: string
+      user_roles:
+        description: Loaded relationships
+        items:
+          $ref: '#/definitions/models.UserRole'
+        type: array
+      username:
+        type: string
+    type: object
+  models.UserRole:
+    properties:
+      assigned_at:
+        type: string
+      assigned_by:
+        type: string
+      is_active:
+        type: boolean
+      role:
+        allOf:
+        - $ref: '#/definitions/models.Role'
+        description: Loaded relationships
+      role_id:
+        type: integer
+      user_id:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: API for managing scholarship applications, allocations, and administration
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: http://swagger.io/terms/
+  title: Scholarship Management System API
+  version: "1.0"
+paths:
+  /admin/activity-log:
+    get:
+      description: Get recent system activities and audit log
+      parameters:
+      - default: 20
+        description: Number of items per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get activity log
+      tags:
+      - Admin Dashboard
+  /admin/scholarships:
+    get:
+      description: Get paginated list of scholarships for admin management
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        name: limit
+        type: integer
+      - description: Filter by status (active/inactive)
+        in: query
+        name: status
+        type: string
+      - description: Filter by academic year
+        in: query
+        name: year
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+              pagination:
+                type: object
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get scholarships for management
+      tags:
+      - Scholarship Management
+  /admin/stats:
+    get:
+      description: Get comprehensive system statistics for admin dashboard
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                type: object
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get system statistics
+      tags:
+      - Admin Dashboard
+  /admin/users:
+    get:
+      description: Get paginated list of users for admin management
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        name: limit
+        type: integer
+      - description: Filter by role
+        in: query
+        name: role
+        type: string
+      - description: Filter by status (active/inactive)
+        in: query
+        name: status
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+              pagination:
+                type: object
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get users for management
+      tags:
+      - User Management
+  /allocations:
+    get:
+      description: Get paginated list of scholarship allocations with filters (Admin/Officer
+        only)
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        name: limit
+        type: integer
+      - description: Filter by allocation status
+        in: query
+        name: status
+        type: string
+      - description: Filter by scholarship ID
+        in: query
+        name: scholarship_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+              pagination:
+                type: object
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get scholarship allocations
+      tags:
+      - Fund Allocation
+    post:
+      consumes:
+      - application/json
+      description: Create new scholarship allocation for approved application (Admin/Officer
+        only)
+      parameters:
+      - description: Allocation data
+        in: body
+        name: allocation
+        required: true
+        schema:
+          $ref: '#/definitions/models.ScholarshipAllocation'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            properties:
+              data:
+                type: object
+              message:
+                type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create scholarship allocation
+      tags:
+      - Fund Allocation
+  /allocations/{id}:
+    get:
+      description: Get detailed information about a specific allocation (Admin/Officer
+        only)
+      parameters:
+      - description: Allocation ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                type: object
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get allocation details
+      tags:
+      - Fund Allocation
+  /allocations/{id}/approve:
+    post:
+      description: Approve a pending scholarship allocation (Admin/Officer only)
+      parameters:
+      - description: Allocation ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              message:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Approve allocation
+      tags:
+      - Fund Allocation
+  /allocations/{id}/disburse:
+    post:
+      consumes:
+      - application/json
+      description: Mark allocation as disbursed with transfer reference details (Admin/Officer
+        only)
+      parameters:
+      - description: Allocation ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Disbursement details
+        in: body
+        name: disbursement
+        required: true
+        schema:
+          properties:
+            transfer_date:
+              type: string
+            transfer_reference:
+              type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              message:
+                type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Disburse allocation
+      tags:
+      - Fund Allocation
+  /allocations/budget/summary:
+    get:
+      description: Get budget allocation summary with utilization rates (Admin/Officer
+        only)
+      parameters:
+      - description: Filter by scholarship ID
+        in: query
+        name: scholarship_id
+        type: string
+      - description: Filter by budget year
+        in: query
+        name: year
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get budget summary
+      tags:
+      - Fund Allocation
+  /applications:
+    post:
+      consumes:
+      - application/json
+      description: Create a new scholarship application (Student only)
+      parameters:
+      - description: Application data
+        in: body
+        name: application
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateApplicationRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            properties:
+              data:
+                type: object
+              message:
+                type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create scholarship application
+      tags:
+      - Applications
+  /applications/my:
+    get:
+      description: Get current user's scholarship applications (Student only)
+      parameters:
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: limit
+        type: integer
+      - default: 0
+        description: Number of items to skip
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+              pagination:
+                type: object
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get my applications
+      tags:
+      - Applications
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user with email and password
+      parameters:
+      - description: Login credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      summary: User login
+      tags:
+      - Authentication
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user account
+      parameters:
+      - description: Registration data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            properties:
+              message:
+                type: string
+              user:
+                type: object
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      summary: User registration
+      tags:
+      - Authentication
+  /documents/{document_id}:
+    delete:
+      description: Delete own uploaded document (only if not verified, Student only)
+      parameters:
+      - description: Document ID
+        in: path
+        name: document_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              message:
+                type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete document
+      tags:
+      - Document Management
+  /documents/{document_id}/download:
+    get:
+      description: Download a specific document file
+      parameters:
+      - description: Document ID
+        in: path
+        name: document_id
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: Document file
+          schema:
+            type: file
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Download document
+      tags:
+      - Document Management
+  /documents/{document_id}/verify:
+    post:
+      consumes:
+      - application/json
+      description: Verify or reject an uploaded document (Admin/Officer only)
+      parameters:
+      - description: Document ID
+        in: path
+        name: document_id
+        required: true
+        type: string
+      - description: 'Verification data (status: verified/rejected)'
+        in: body
+        name: verification
+        required: true
+        schema:
+          properties:
+            notes:
+              type: string
+            status:
+              type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              message:
+                type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Verify document
+      tags:
+      - Document Verification
+  /documents/applications/{application_id}:
+    get:
+      description: Get list of documents for a specific application
+      parameters:
+      - description: Application ID
+        in: path
+        name: application_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get application documents
+      tags:
+      - Document Management
+  /documents/applications/{application_id}/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload supporting document for scholarship application (Student
+        only)
+      parameters:
+      - description: Application ID
+        in: path
+        name: application_id
+        required: true
+        type: string
+      - description: Document file (PDF, JPEG, PNG, DOC, DOCX - max 10MB)
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Document type (id_card, transcript, income_certificate, etc.)
+        in: formData
+        name: document_type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            properties:
+              document_id:
+                type: integer
+              filename:
+                type: string
+              message:
+                type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Upload document
+      tags:
+      - Document Management
+  /documents/bulk-verify:
+    post:
+      consumes:
+      - application/json
+      description: Verify or reject multiple documents at once (Admin/Officer only)
+      parameters:
+      - description: Bulk verification data
+        in: body
+        name: verification
+        required: true
+        schema:
+          properties:
+            document_ids:
+              items:
+                type: integer
+              type: array
+            notes:
+              type: string
+            status:
+              type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              message:
+                type: string
+              updated_count:
+                type: integer
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Bulk verify documents
+      tags:
+      - Document Verification
+  /documents/stats:
+    get:
+      description: Get document verification statistics, optionally filtered by application
+      parameters:
+      - description: Filter by application ID
+        in: query
+        name: application_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                type: object
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get document statistics
+      tags:
+      - Document Management
+  /documents/types:
+    get:
+      description: Get list of available document types for uploads
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get document types
+      tags:
+      - Document Management
+  /interviews/applications/{application_id}/schedules/{schedule_id}/book:
+    post:
+      description: Allow student to book an interview appointment for their application
+      parameters:
+      - description: Application ID
+        in: path
+        name: application_id
+        required: true
+        type: string
+      - description: Schedule ID
+        in: path
+        name: schedule_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              appointment_id:
+                type: integer
+              message:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Book interview slot
+      tags:
+      - Interview Booking
+  /interviews/appointments/{appointment_id}/confirm:
+    post:
+      description: Allow student to confirm their scheduled interview appointment
+      parameters:
+      - description: Appointment ID
+        in: path
+        name: appointment_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              message:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Confirm interview appointment
+      tags:
+      - Interview Booking
+  /interviews/appointments/{appointment_id}/result:
+    post:
+      consumes:
+      - application/json
+      description: Submit interview evaluation and scoring (Interviewer/Admin/Officer
+        only)
+      parameters:
+      - description: Appointment ID
+        in: path
+        name: appointment_id
+        required: true
+        type: string
+      - description: Interview result data
+        in: body
+        name: result
+        required: true
+        schema:
+          $ref: '#/definitions/models.InterviewResult'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                type: object
+              message:
+                type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Submit interview result
+      tags:
+      - Interview Results
+  /interviews/my:
+    get:
+      description: Get interview appointments for current user (different view for
+        students vs interviewers)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get my interviews
+      tags:
+      - Interview Management
+  /interviews/schedules:
+    get:
+      description: Get list of interview schedules with optional scholarship filter
+        (Admin/Officer only)
+      parameters:
+      - description: Filter by scholarship ID
+        in: query
+        name: scholarship_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get interview schedules
+      tags:
+      - Interview Management
+    post:
+      consumes:
+      - application/json
+      description: Create a new interview schedule for scholarship applications (Admin/Officer
+        only)
+      parameters:
+      - description: Interview schedule data
+        in: body
+        name: schedule
+        required: true
+        schema:
+          $ref: '#/definitions/models.InterviewSchedule'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            properties:
+              data:
+                type: object
+              message:
+                type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create interview schedule
+      tags:
+      - Interview Management
+  /notifications:
+    get:
+      description: Get paginated list of notifications for current user
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Items per page
+        in: query
+        name: limit
+        type: integer
+      - default: false
+        description: Show only unread notifications
+        in: query
+        name: unread_only
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+              pagination:
+                type: object
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get notifications
+      tags:
+      - Notifications
+  /notifications/{id}:
+    delete:
+      description: Delete a notification for current user
+      parameters:
+      - description: Notification ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              message:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete notification
+      tags:
+      - Notifications
+  /notifications/{id}/read:
+    post:
+      description: Mark a specific notification as read
+      parameters:
+      - description: Notification ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              message:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Mark notification as read
+      tags:
+      - Notifications
+  /notifications/bulk-send:
+    post:
+      consumes:
+      - application/json
+      description: Send notification to multiple users at once (Admin/Officer only)
+      parameters:
+      - description: Bulk notification data
+        in: body
+        name: notification
+        required: true
+        schema:
+          properties:
+            message:
+              type: string
+            notification_type:
+              type: string
+            priority:
+              type: string
+            reference_id:
+              type: string
+            reference_type:
+              type: string
+            title:
+              type: string
+            user_ids:
+              items:
+                type: string
+              type: array
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              message:
+                type: string
+              success_count:
+                type: integer
+              total_users:
+                type: integer
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Send bulk notification
+      tags:
+      - Notification Management
+  /notifications/mark-all-read:
+    post:
+      description: Mark all unread notifications as read for current user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              message:
+                type: string
+              updated_count:
+                type: integer
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Mark all notifications as read
+      tags:
+      - Notifications
+  /notifications/send:
+    post:
+      consumes:
+      - application/json
+      description: Send a notification to a user (Admin/Officer only)
+      parameters:
+      - description: Notification data
+        in: body
+        name: notification
+        required: true
+        schema:
+          $ref: '#/definitions/models.Notification'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            properties:
+              data:
+                type: object
+              message:
+                type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Send notification
+      tags:
+      - Notification Management
+  /notifications/types:
+    get:
+      description: Get list of available notification types
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get notification types
+      tags:
+      - Notification Management
+  /notifications/unread-count:
+    get:
+      description: Get count of unread notifications for current user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              unread_count:
+                type: integer
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get unread notification count
+      tags:
+      - Notifications
+  /reports/applications:
+    get:
+      description: Generate comprehensive application report with filters (Admin/Officer
+        only)
+      parameters:
+      - description: Filter from date (YYYY-MM-DD)
+        in: query
+        name: start_date
+        type: string
+      - description: Filter to date (YYYY-MM-DD)
+        in: query
+        name: end_date
+        type: string
+      - description: Filter by scholarship ID
+        in: query
+        name: scholarship_id
+        type: string
+      - description: Filter by application status
+        in: query
+        name: status
+        type: string
+      - description: Filter by faculty code
+        in: query
+        name: faculty_code
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+              summary:
+                type: object
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get application report
+      tags:
+      - Reports
+  /reports/budget:
+    get:
+      description: Generate budget allocation and utilization report (Admin/Officer
+        only)
+      parameters:
+      - default: current year
+        description: Filter by budget year
+        in: query
+        name: budget_year
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+              summary:
+                type: object
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get budget report
+      tags:
+      - Reports
+  /reports/dashboard:
+    get:
+      description: Get comprehensive dashboard statistics for admin overview
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                type: object
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get dashboard summary
+      tags:
+      - Reports
+  /reports/export/{type}:
+    get:
+      description: Export report data in various formats (Admin/Officer only)
+      parameters:
+      - description: Report type (application/scholarship/budget/student)
+        in: path
+        name: type
+        required: true
+        type: string
+      - default: csv
+        description: Export format (csv/excel)
+        in: query
+        name: format
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              format:
+                type: string
+              message:
+                type: string
+              report_type:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Export report
+      tags:
+      - Reports
+  /reports/scholarships:
+    get:
+      description: Generate scholarship utilization and statistics report (Admin/Officer
+        only)
+      parameters:
+      - description: Filter by academic year
+        in: query
+        name: academic_year
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+              summary:
+                type: object
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get scholarship report
+      tags:
+      - Reports
+  /reports/students:
+    get:
+      description: Generate student scholarship statistics and success rates report
+        (Admin/Officer only)
+      parameters:
+      - description: Filter by faculty code
+        in: query
+        name: faculty_code
+        type: string
+      - description: Filter by academic year
+        in: query
+        name: academic_year
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+              summary:
+                type: object
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get student report
+      tags:
+      - Reports
+  /scholarship-sources:
+    post:
+      consumes:
+      - application/json
+      description: Create a new scholarship funding source (Admin/Officer only)
+      parameters:
+      - description: Source data
+        in: body
+        name: source
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateSourceRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            properties:
+              data:
+                type: object
+              message:
+                type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create scholarship source
+      tags:
+      - Scholarship Sources
+  /scholarships:
+    get:
+      description: Get list of scholarships with optional filters and pagination
+      parameters:
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: limit
+        type: integer
+      - default: 0
+        description: Number of items to skip
+        in: query
+        name: offset
+        type: integer
+      - description: Search term
+        in: query
+        name: search
+        type: string
+      - description: Scholarship type filter
+        in: query
+        name: type
+        type: string
+      - description: Academic year filter
+        in: query
+        name: academic_year
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+              pagination:
+                type: object
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get scholarships
+      tags:
+      - Scholarships
+  /student/application-history:
+    get:
+      description: Get student's scholarship application history
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get application history
+      tags:
+      - Student Profile
+  /student/profile:
+    get:
+      description: Get current user's student academic profile
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                type: object
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get student profile
+      tags:
+      - Student Profile
+    post:
+      consumes:
+      - application/json
+      description: Create or update student academic profile
+      parameters:
+      - description: Student profile data
+        in: body
+        name: profile
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.StudentProfileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                type: object
+              message:
+                type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create/Update student profile
+      tags:
+      - Student Profile
+  /user/profile:
+    get:
+      description: Get current user's profile information
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get user profile
+      tags:
+      - User Profile
+    put:
+      consumes:
+      - application/json
+      description: Update current user's profile information
+      parameters:
+      - description: Profile data
+        in: body
+        name: profile
+        required: true
+        schema:
+          properties:
+            first_name:
+              type: string
+            last_name:
+              type: string
+            phone:
+              type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              message:
+                type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update user profile
+      tags:
+      - User Profile
+  /users:
+    get:
+      description: Get paginated list of users with search and filters (Admin only)
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        name: limit
+        type: integer
+      - description: Filter by role
+        in: query
+        name: role
+        type: string
+      - description: Search by name, email, or username
+        in: query
+        name: search
+        type: string
+      - description: Filter by active status (true/false)
+        in: query
+        name: is_active
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+              pagination:
+                type: object
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get users
+      tags:
+      - User Administration
+    post:
+      consumes:
+      - application/json
+      description: Create a new user account (Admin only)
+      parameters:
+      - description: User data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            properties:
+              data:
+                type: object
+              message:
+                type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create user
+      tags:
+      - User Administration
+  /users/{id}:
+    get:
+      description: Get detailed information about a specific user (Admin only)
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                type: object
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get user by ID
+      tags:
+      - User Administration
+    put:
+      consumes:
+      - application/json
+      description: Update user information (Admin only)
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: User update data
+        in: body
+        name: user
+        required: true
+        schema:
+          properties:
+            email:
+              type: string
+            first_name:
+              type: string
+            is_active:
+              type: boolean
+            last_name:
+              type: string
+            phone:
+              type: string
+            username:
+              type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              message:
+                type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update user
+      tags:
+      - User Administration
+  /users/{id}/deactivate:
+    post:
+      description: Deactivate a user account (Admin only)
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              message:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Deactivate user
+      tags:
+      - User Administration
+  /users/{id}/reactivate:
+    post:
+      description: Reactivate a user account (Admin only)
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              message:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Reactivate user
+      tags:
+      - User Administration
+  /users/{id}/roles:
+    post:
+      consumes:
+      - application/json
+      description: Assign a role to a specific user (Admin only)
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Role assignment data
+        in: body
+        name: role
+        required: true
+        schema:
+          properties:
+            role_id:
+              type: integer
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              message:
+                type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Assign role to user
+      tags:
+      - User Administration
+  /users/{id}/roles/{role_id}:
+    delete:
+      description: Remove a specific role from a user (Admin only)
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Role ID
+        in: path
+        name: role_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              message:
+                type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Remove role from user
+      tags:
+      - User Administration
+  /users/roles:
+    get:
+      description: Get list of all available roles in the system (Admin only)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                items:
+                  type: object
+                type: array
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get all roles
+      tags:
+      - User Administration
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
