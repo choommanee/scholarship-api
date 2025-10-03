@@ -42,6 +42,10 @@ func SetupRoutes(app *fiber.App, cfg *config.Config) {
 	adminHandler := handlers.NewAdminHandler(cfg)
 	newsHandler := handlers.NewNewsHandler(cfg)
 	profileHandler := handlers.NewProfileHandler(cfg)
+	draftHandler := handlers.NewApplicationDraftHandler(cfg)
+	sectionHandler := handlers.NewApplicationSectionHandler(cfg)
+	submitHandler := handlers.NewApplicationSubmitHandler(cfg)
+	docEnhancedHandler := handlers.NewDocumentEnhancedHandler(cfg)
 
 	// Swagger documentation
 	app.Get("/swagger/*", fiberSwagger.WrapHandler)
@@ -61,8 +65,17 @@ func SetupRoutes(app *fiber.App, cfg *config.Config) {
 	// Setup auth routes
 	setupAuthRoutes(api, authHandler, cfg)
 
+	// Setup public routes group
+	public := api.Group("/public")
+
 	// Setup public scholarship routes (no authentication)
+	setupPublicScholarshipRoutes(public, scholarshipHandler)
+
+	// Also keep direct /scholarships for backward compatibility
 	setupPublicScholarshipRoutes(api, scholarshipHandler)
+
+	// Setup public scholarship eligibility check (requires auth)
+	api.Post("/scholarships/:id/check-eligibility", middleware.JWTMiddleware(cfg), draftHandler.CheckEligibility)
 
 	// Setup public news routes (no authentication)
 	setupPublicNewsRoutes(api, newsHandler)
@@ -74,7 +87,8 @@ func SetupRoutes(app *fiber.App, cfg *config.Config) {
 	setupProtectedRoutes(protected,
 		authHandler, scholarshipHandler, applicationHandler,
 		interviewHandler, allocationHandler, notificationHandler,
-		reportHandler, documentHandler, userHandler, studentHandler, adminHandler, newsHandler, profileHandler, cfg)
+		reportHandler, documentHandler, userHandler, studentHandler, adminHandler, newsHandler, profileHandler,
+		draftHandler, sectionHandler, submitHandler, docEnhancedHandler, cfg)
 
 	// Setup admin application routes
 	setupAdminApplicationRoutes(protected, applicationHandler)
@@ -189,6 +203,10 @@ func setupProtectedRoutes(protected fiber.Router,
 	adminHandler *handlers.AdminHandler,
 	newsHandler *handlers.NewsHandler,
 	profileHandler *handlers.ProfileHandler,
+	draftHandler *handlers.ApplicationDraftHandler,
+	sectionHandler *handlers.ApplicationSectionHandler,
+	submitHandler *handlers.ApplicationSubmitHandler,
+	docEnhancedHandler *handlers.DocumentEnhancedHandler,
 	cfg *config.Config) {
 
 	// Universal profile routes (all roles)
@@ -204,13 +222,16 @@ func setupProtectedRoutes(protected fiber.Router,
 	setupProtectedNewsRoutes(protected, newsHandler)
 
 	// Application routes
-	setupApplicationRoutes(protected, applicationHandler, cfg)
+	setupApplicationRoutes(protected, applicationHandler, draftHandler, sectionHandler, submitHandler, cfg)
 
 	// Interview routes
 	setupInterviewRoutes(protected, interviewHandler)
 
 	// Document routes
 	setupDocumentRoutes(protected, documentHandler)
+
+	// Enhanced document routes
+	setupEnhancedDocumentRoutes(protected, docEnhancedHandler)
 
 	// Allocation routes
 	setupAllocationRoutes(protected, allocationHandler)
@@ -261,7 +282,11 @@ func setupProtectedScholarshipRoutes(protected fiber.Router, scholarshipHandler 
 }
 
 // setupApplicationRoutes configures application management routes
-func setupApplicationRoutes(protected fiber.Router, applicationHandler *handlers.ApplicationHandler, cfg *config.Config) {
+func setupApplicationRoutes(protected fiber.Router, applicationHandler *handlers.ApplicationHandler,
+	draftHandler *handlers.ApplicationDraftHandler,
+	sectionHandler *handlers.ApplicationSectionHandler,
+	submitHandler *handlers.ApplicationSubmitHandler,
+	cfg *config.Config) {
 	applications := protected.Group("/applications")
 
 	// Student application routes
@@ -274,6 +299,16 @@ func setupApplicationRoutes(protected fiber.Router, applicationHandler *handlers
 
 	// Application Details routes (Student only)
 	setupApplicationDetailsRoutes(applications, middleware.RequireRole("student"), cfg)
+
+	// Draft Application routes
+	applications.Post("/draft", middleware.RequireRole("student"), draftHandler.CreateDraft)
+	applications.Get("/draft", middleware.RequireRole("student"), draftHandler.GetDraft)
+
+	// Section Save routes
+	applications.Post("/:id/sections/:section_name", middleware.RequireRole("student"), sectionHandler.SaveSection)
+
+	// Enhanced Submit route
+	applications.Post("/:id/submit-enhanced", middleware.RequireRole("student"), submitHandler.SubmitApplication)
 
 	// Admin/Officer application management routes
 	applicationsAdmin := applications.Use(middleware.RequireRole("admin", "scholarship_officer", "interviewer"))
@@ -331,6 +366,14 @@ func setupDocumentRoutes(protected fiber.Router, documentHandler *handlers.Docum
 	documentAdmin := documents.Use(middleware.RequireRole("admin", "scholarship_officer"))
 	documentAdmin.Post("/:document_id/verify", documentHandler.VerifyDocument)
 	documentAdmin.Post("/bulk-verify", documentHandler.BulkVerifyDocuments)
+}
+
+// setupEnhancedDocumentRoutes configures enhanced document management routes
+func setupEnhancedDocumentRoutes(protected fiber.Router, docEnhancedHandler *handlers.DocumentEnhancedHandler) {
+	// Enhanced document routes
+	protected.Post("/documents/applications/:id/upload-enhanced", middleware.RequireRole("student"), docEnhancedHandler.UploadDocumentEnhanced)
+	protected.Delete("/documents/:id/delete-enhanced", middleware.RequireRole("student"), docEnhancedHandler.DeleteDocument)
+	protected.Get("/documents/:id/download-enhanced", docEnhancedHandler.DownloadDocument)
 }
 
 // setupAllocationRoutes configures allocation management routes

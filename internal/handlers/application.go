@@ -186,16 +186,32 @@ func (h *ApplicationHandler) GetMyApplications(c *fiber.Ctx) error {
 		offset = 0
 	}
 
-	// Get user info to get student ID
-	user, err := h.userRepo.GetByID(userID)
+	// Get student_id from students table
+	var studentID string
+	err = database.DB.QueryRow(
+		"SELECT student_id FROM students WHERE user_id = $1",
+		userID,
+	).Scan(&studentID)
+
 	if err != nil {
-		fmt.Printf("Debug - GetMyApplications: Failed to get user info for userID=%s, error=%v\n", userID.String(), err)
+		if err == sql.ErrNoRows {
+			// If no student record, return empty list
+			return c.JSON(fiber.Map{
+				"applications": []interface{}{},
+				"pagination": fiber.Map{
+					"page":       (offset / limit) + 1,
+					"limit":      limit,
+					"total":      0,
+					"totalPages": 0,
+				},
+			})
+		}
+		fmt.Printf("Debug - GetMyApplications: Failed to get student_id for userID=%s, error=%v\n", userID.String(), err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": "Failed to get user information",
+			"error": "Failed to get student information",
 		})
 	}
 
-	studentID := user.Email // TODO: Fix this with proper student repository
 	fmt.Printf("Debug - GetMyApplications: userID=%s, studentID=%s\n", userID.String(), studentID)
 
 	applications, total, err := h.applicationRepo.ListByStudent(studentID, limit, offset)
